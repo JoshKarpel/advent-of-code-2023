@@ -23,3 +23,16 @@ repos:
       - id: check-github-workflows
       - id: check-github-actions
       - id: check-dependabot
+
+  - repo: local
+    hooks:
+      - id: format-clojure
+        name: format clojure code
+        entry: lein cljfmt fix
+        language: system
+        types:
+          - clojure
+
+ci:
+  skip:
+    - format-clojure
