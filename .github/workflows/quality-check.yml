@@ -1,0 +1,31 @@
+name: quality-check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.1.0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4.7.1
+        with:
+          python-version: "3.x"
+
+      - name: Set up Java
+        uses: actions/setup-java@v3.13.0
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.0
+
+      - name: Run tests
+        run: lein test
