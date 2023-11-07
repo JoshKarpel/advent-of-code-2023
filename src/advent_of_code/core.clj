@@ -7,7 +7,7 @@
 (defn get-input [{:keys [day aoc-session]}]
   (let [path (format "inputs/%02d.txt" day)]
     (clojure.java.io/make-parents path)
-    (spit path (get (client/get (format "https://adventofcode.com/2023/day/%d/input" day) {:cookies {"session" {:value aoc-session}}}) :body))
+    (spit path (:body (client/get (format "https://adventofcode.com/2022/day/%d/input" day) {:cookies {"session" {:value aoc-session}}})))
     (println (format "Got input for day %s and saved to %s" day path))))
 
 (defn solve [{:keys [day]}]
