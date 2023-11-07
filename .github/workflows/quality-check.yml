@@ -1,4 +1,4 @@
-name: pre-commit
+name: quality-check
 
 on:
   push:
@@ -7,21 +7,31 @@ on:
   pull_request:
 
 jobs:
-  pre-commit:
+  quality-check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4.1.0
+
       - name: Set up Python
         uses: actions/setup-python@v4.7.1
         with:
           python-version: "3.x"
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
       - name: Install clojure tools
         uses: DeLaGuardo/setup-clojure@12.1
         with:
           cli: 1.10.2
           lein: 2.9.1
+
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.0
+
       - name: Run tests
         run: lein test
