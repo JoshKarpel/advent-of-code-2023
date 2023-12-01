@@ -2,6 +2,7 @@
   :description "My Advent of Code 2023 solutions."
   :url "https://github.com/JoshKarpel/advent-of-code-2023"
   :dependencies [[org.clojure/clojure "1.10.2"]
+                 [org.clojure/core.match "1.0.1"]
                  [org.clojure/tools.trace "0.7.11"]
                  [cli-matic "0.5.4"]
                  [clj-http "3.12.3"]]
