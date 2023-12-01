@@ -12,11 +12,43 @@
     (spit path (:body (client/get (format "https://adventofcode.com/2023/day/%d/input" day) {:cookies {"session" {:value aoc-session}}})))
     (println (format "Got input for day %s and saved to %s" day path))))
 
-(defn first-and-last [s]
-  (match [s]
+(defn first-and-last [seq]
+  (match [seq]
     [([f] :seq)] [f f]
     [([f l] :seq)] [f l]
     [([f & rest] :seq)] [f (last rest)]))
+
+(def pattern "1|2|3|4|5|6|7|8|9|one|two|three|four|five|six|seven|eight|nine")
+(def re-forward (re-pattern pattern))
+(def re-backward (re-pattern (str/reverse pattern)))
+(def unspell {"1" "1"
+              "one" "1"
+              "2" "2"
+              "two" "2"
+              "3" "3"
+              "three" "3"
+              "4" "4"
+              "four" "4"
+              "5" "5"
+              "five" "5"
+              "6" "6"
+              "six" "6"
+              "7" "7"
+              "seven" "7"
+              "8" "8"
+              "eight" "8"
+              "9" "9"
+              "nine" "9"})
+
+(defn first-and-last-part-2 [str]
+  [(->> str
+        (re-find re-forward)
+        (unspell))
+   (->> str
+        (str/reverse)
+        (re-find re-backward)
+        (str/reverse)
+        (unspell))])
 
 (defn solve-day-1 []
   (let [lines (-> "inputs/01.txt"
@@ -25,6 +57,11 @@
     (println (->> lines
                   (map #(re-seq #"\d" %))
                   (map first-and-last)
+                  (map #(str/join "" %))
+                  (map #(Integer/parseInt %))
+                  (reduce +)))
+    (println (->> lines
+                  (map first-and-last-part-2)
                   (map #(str/join "" %))
                   (map #(Integer/parseInt %))
                   (reduce +)))))
